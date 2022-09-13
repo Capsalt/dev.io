@@ -1,9 +1,12 @@
 ﻿using Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLanguage;
+using Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage;
+using Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLanguage;
 using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Models;
 using Application.Features.ProgrammingLanguages.Queries.GetByIdProgrammingLanguage;
 using Application.Features.ProgrammingLanguages.Queries.GetListProgrammingLanguage;
 using Core.Application.Requests;
+using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +38,22 @@ namespace WebAPI.Controllers
         {
             CreatedProgrammingLanguageDto result = await Mediator.Send(createProgrammingLanguageCommand);
             return Created("", result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateProgrammingLanguageCommand updateProgrammingLanguageCommand)
+        {
+            UpdatedProgrammingLanguageDto result = await Mediator.Send(updateProgrammingLanguageCommand);
+            return Ok(result);
+
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeleteProgrammingLanguageCommand deleteProgrammingLanguageCommand)
+        {
+            ProgrammingLanguage result = await Mediator.Send(deleteProgrammingLanguageCommand);
+            return Ok(result);
+
         }
     }
 }
